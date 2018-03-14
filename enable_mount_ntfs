@@ -1,0 +1,32 @@
+#!/bin/bash
+if [ -f /sbin/mount_ntfs_orig ]
+then
+    echo "ERROR: there are already have /sbin/mount_ntfs_orig"
+    echo ""
+    ls -all /sbin/mount_ntfs
+    ls -all /sbin/mount_ntfs_orig
+    echo ""
+    echo "Maybe you should reset_mount_ntfs first"
+    exit 1
+fi
+
+sudo mv /sbin/mount_ntfs /sbin/mount_ntfs_orig
+
+cat << EOF > ~/mount_ntfs_tmp
+#!/bin/bash
+for arg in \$@
+do
+    if [ \$(echo \$arg |grep -c "/dev/disk") == 1 ]
+    then 
+        disk=\$arg
+    elif [ \$(echo \$arg |grep -c "/Volumes/") == 1 ]
+    then 
+        volume="\$arg"
+    fi
+done
+mount_ntfs_orig -o rw,auto,nobrowse \$disk "\$volume"
+EOF
+sudo mv ~/mount_ntfs_tmp /sbin/mount_ntfs
+chmod a+x /sbin/mount_ntfs
+sudo ln -s /Volumes ~/磁盘
+echo "Enable Success"

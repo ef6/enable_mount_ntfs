@@ -1,0 +1,10 @@
+#!/bin/bash
+if [ -f /sbin/mount_ntfs_orig ]
+then
+    sudo mv /sbin/mount_ntfs_orig /sbin/mount_ntfs
+    rm -f ~/磁盘
+    echo "Reset Ok"
+else
+    echo "Don't found the BackUp /sbin/mount_ntfs_orig"
+    exit 1
+fi

@@ -1,0 +1,21 @@
+#!/bin/bash
+if [ -f /sbin/mount_ntfs_orig ]
+then
+    echo "ERROR: there are already have /sbin/mount_ntfs_orig"
+    echo ""
+    ls -all /sbin/mount_ntfs
+    ls -all /sbin/mount_ntfs_orig
+    echo ""
+    echo "Maybe you should reset_mount_ntfs first"
+    exit 1
+fi
+sudo mv /sbin/mount_ntfs /sbin/mount_ntfs_orig
+
+cat << EOF ~/reset_mount_ntfs_tmp
+#!/bin/bash
+echo \$0 \$* >>/Users/evan/debug_mount_ntfs.log
+EOF
+sudo mv ~/reset_mount_ntfs_tmp /sbin/mount_ntfs
+chmod a+x /sbin/mount_ntfs
+echo "Enable Debug Success"
+echo "The log in ~/debug_mount_ntfs.log"
