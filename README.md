@@ -1,4 +1,7 @@
 # 开启 Mac 原生 NTFS 读写功能
+
+下载 [enable_mount_ntfs.dmg](https://github.com/ef6/enable_mount_ntfs/releases)
+
 ## 安装
 
 执行 `enable_mount_ntfs`
